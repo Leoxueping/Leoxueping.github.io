@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>初探GraphQL | lixpng</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、什么是 GraphQL全称 Graph Query Language，是Facebook于2012年创造的一种用于 API 的查询语言，通俗地讲，就是相当于将你所有后端 API 组成的集合看成一个数据库，用户终端发送一个查询语句，你的 GraphQL 服务解析这条语句并通过一系列规则从你的“ API 数据库”里面将查询的数据结果返回给终端，而 GraphQL 就相当于这个系统的一个查询和定义语">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初探GraphQL">
+<meta property="og:url" content="git@github.com:lixpng/lixpng.github.io.git/2018/12/20/graphql-intro/index.html">
+<meta property="og:site_name" content="lixpng">
+<meta property="og:description" content="一、什么是 GraphQL全称 Graph Query Language，是Facebook于2012年创造的一种用于 API 的查询语言，通俗地讲，就是相当于将你所有后端 API 组成的集合看成一个数据库，用户终端发送一个查询语句，你的 GraphQL 服务解析这条语句并通过一系列规则从你的“ API 数据库”里面将查询的数据结果返回给终端，而 GraphQL 就相当于这个系统的一个查询和定义语">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-12-20T13:37:13.606Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初探GraphQL">
+<meta name="twitter:description" content="一、什么是 GraphQL全称 Graph Query Language，是Facebook于2012年创造的一种用于 API 的查询语言，通俗地讲，就是相当于将你所有后端 API 组成的集合看成一个数据库，用户终端发送一个查询语句，你的 GraphQL 服务解析这条语句并通过一系列规则从你的“ API 数据库”里面将查询的数据结果返回给终端，而 GraphQL 就相当于这个系统的一个查询和定义语">
+  
+    <link rel="alternate" href="/atom.xml" title="lixpng" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">lixpng</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">文章列表</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="git@github.com:lixpng/lixpng.github.io.git"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-graphql-intro" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/20/graphql-intro/" class="article-date">
+  <time datetime="2018-12-20T11:39:38.000Z" itemprop="datePublished">2018-12-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      初探GraphQL
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、什么是-GraphQL"><a href="#一、什么是-GraphQL" class="headerlink" title="一、什么是 GraphQL"></a>一、什么是 <code>GraphQL</code></h3><p>全称 <code>Graph Query Language</code>，是Facebook于2012年创造的一种用于 API 的查询语言，通俗地讲，就是相当于将你所有后端 API 组成的集合看成一个数据库，用户终端发送一个查询语句，你的 <code>GraphQL</code> 服务解析这条语句并通过一系列规则从你的“ API 数据库”里面将查询的数据结果返回给终端，而 <code>GraphQL</code> 就相当于这个系统的一个查询和定义语言。是一种与 <code>Rest</code> 完全的不同的 <code>API</code> 方案。<br><a id="more"></a></p>
+<h3 id="二、核心概念"><a href="#二、核心概念" class="headerlink" title="二、核心概念"></a>二、核心概念</h3><p>要了解 <code>GraphQL</code>，就需要先清楚它的几个核心概念</p>
+<h4 id="1-GraphQL-schema-language"><a href="#1-GraphQL-schema-language" class="headerlink" title="1.GraphQL schema language"></a>1.<code>GraphQL schema language</code></h4><p>要定义 <code>GraphQL</code>，先要了解一个简单的语言，<code>GraphQL schema language</code>，它是用来定义你的 <code>GraphQL</code> 服务的，要使用它把你的所有资源和入口都描述出来。先来看下它的几个概念:</p>
+<ul>
+<li><p><code>Type</code> (类型)<br><code>Type</code> 是一种抽象数据模型，比如 <code>JavaScript</code> 中有 <code>number, string, boolean</code> 等数据类型，<code>GraphQL</code> 中的 <code>Type</code> 就是类似的概念。每一个 <code>GraphQL</code> 服务都要定义一套类型，以描述可查询到的数据，且每次查询都需要对类型进行验证，这样就避免了一些未知的 <code>bug</code>，以下就是一个简单的例子:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">type Author &#123;</span><br><span class="line">  name: <span class="built_in">String</span>!,</span><br><span class="line">  posts: [Post]!</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码就定义了一个名为 <code>Author</code> 的对象类型，它有两个字段 <code>name</code> 和 <code>posts</code>，<code>name</code> 是一个非空的 <code>String</code> 类型的字段，<code>posts</code> 是一个 <code>Post</code> 类型的列表。<br><code>GraphQL</code> 中的类型分为 <code>Scalar</code> (标量类型)和  <code>Object</code> (对象类型)。</p>
+<ul>
+<li>内置的标量类型有 <code>String, Int, Float, Boolean, ID</code>，其中 <code>ID</code> 表示一个不可重复的值，跟数据库中的 <code>id</code> 差不多意思，在 <code>JavaScript</code> 中是一个字符串。</li>
+<li>对象类型是由一些字段组成的复杂数据类型，比如上面的 <code>Person</code> 就是一个对象类型，是由我们定义的。</li>
+<li>除了以上两种类型，还有类型修饰符，<code>!</code> 代表非空，比如上面的 <code>name</code> 字段后面加了 <code>!</code>，表示你每次查询 <code>name</code> 字段的时候必定会返回一个非空的值。</li>
+<li><p>还有一种稍微特殊一点的对象类型，叫 <code>input</code>，输入类型，一般这样定义:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">input PersonInput &#123;</span><br><span class="line">  name: <span class="built_in">String</span>,</span><br><span class="line">  Post: <span class="built_in">String</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它只是把 <code>type</code> 关键字换成了 <code>input</code> 关键字，代表用户输入，如果你想传入一个非标量的参数，就需要定义对应的输入类型。</p>
+</li>
+<li>另外，还有其他的类型: <code>Emun</code>–枚举类型，<code>Union</code>–联合类型，<code>interface</code>–接口，概念都和编程语言中的差不多。</li>
+</ul>
+</li>
+<li>Schema<br><code>Schema</code> 描述了数据的组织形态以及服务器上有哪些字段能被查询，以及如何查询，由上面介绍的各种类型的字段组成，当查询到来时，服务器会根据你定义的 <code>Schema</code> 对查询进行验证，通过之后才会执行查询。</li>
+<li>Root Type (Query Type)<br>根类型，代表着你的服务的入口，一个服务至少定义一个根类型，不然是没法查询。注意，这个根类型除了是入口之外跟其他的对象类型的字段并没有其他的区别。可以定义三种入口：<ul>
+<li>Query: 查询，用来定义查询的入口。这里 <code>Query</code> 和上面的根类型 <code>Query Type</code> 不是一个概念，所以把上面的叫做 <code>Root Type</code> 没有这么容易混淆。</li>
+<li>Mutation: 突变，用来定义改变数据的入口。</li>
+<li>Subscription: 订阅，定义订阅事件的入口，注意，它是用来定义事件的，比如当某一个 <code>mutation</code> 执行时通知客户端。</li>
+</ul>
+</li>
+</ul>
+<p>了解了上面的概念之后，可以去看看<a href="https://github.com/lixpng/graphql-demo/blob/master/src/schema.js" target="_blank" rel="noopener">例子</a>。</p>
+<h4 id="2-resolver"><a href="#2-resolver" class="headerlink" title="2.resolver"></a>2.resolver</h4><p>上面我们了解了如何定义一个 <code>Schema</code>，但并没有说如何返回数据，所以下面就要了解一个叫做 <code>resolver</code> (解析器)的东西，它是用来解析字段并返回字段的值的。它就是个普通的函数，如:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getAuthor</span>(<span class="params">obj, params, ctx, info</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    name: <span class="string">'author1'</span>,</span><br><span class="line">    age: <span class="number">19</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>它接受四个参数：</p>
+<ul>
+<li><code>obj</code>，上一级对象，因为 <code>GraphQL</code> 是逐层解析字段的，所以一般会有上一级对象传入。</li>
+<li><code>params</code>，我们查询时传入的参数变量</li>
+<li><code>ctx</code>，可以传给所有解析器的上下文，可以在这里传入 <code>request</code> 对象和数据库连接对象等。</li>
+<li><code>info</code>，是关于查询的字段的特定信息和 <code>Schema</code> 的信息。</li>
+</ul>
+<h4 id="3-GraphQL-query-language"><a href="#3-GraphQL-query-language" class="headerlink" title="3.GraphQL query language"></a>3.GraphQL query language</h4><p>将上面的 <code>Scheam</code> 和 <code>resolver</code> 进行组合(如何组合就是看各个框架的实现方式了)，就能启动一个 <code>GraphQL</code> 服务了。具体可以看<a href="https://github.com/lixpng/graphql-demo" target="_blank" rel="noopener">Demo</a>。但是如何对它进行查询呢，就需要通过一个叫 <code>GraphQL query language</code> 的简单语言。如:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">query getAuthors($option: AuthorInput) &#123;</span><br><span class="line">  allAuthors(option: $option) &#123;</span><br><span class="line">    id</span><br><span class="line">    name</span><br><span class="line">    age</span><br><span class="line">    posts&#123;</span><br><span class="line">      id</span><br><span class="line">      title</span><br><span class="line">      content</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面就是一个简单的查询文档，可以运行了<a href="https://github.com/lixpng/graphql-demo" target="_blank" rel="noopener">Demo</a>之后进行查询尝试。<br>它有以下几个概念：  </p>
+<ul>
+<li>操作类型，就是例子中的 <code>query</code>，其他的类型还有 <code>mutation</code> 和 <code>subscription</code> 。</li>
+<li>操作名称，当有多个查询文档时，必须定义操作名，上面例子中时 <code>getAuthors</code>。</li>
+<li>变量，变量类型，和参数：在 <code>GraphQL query language</code> 中，可以通过外部传入变量，最后会把参数用你传入的变量进行替换来进行查询，但变量名必须以 <code>$</code> 符号开头，且必须指定变量类型。如上面例子中的 <code>$option</code> 就是变量，类型是 <code>AuthorInput</code>，参数是 <code>option</code>。</li>
+<li>要使用的查询：就是使用入口中的哪个字段，比如上面例子中是查询了 <code>allAuthors</code>。</li>
+<li>查询的字段：再就是你想要查询的字段，对象类型的字段必须展开。  </li>
+</ul>
+<p>了解了以上概念，并把<a href="https://github.com/lixpng/graphql-demo" target="_blank" rel="noopener">Demo</a>跑一遍应该就对 <code>GraphQL</code> 有一个大概了了解了。</p>
+<h3 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h3><p><code>GraphQL</code> 使用强类型系统定义服务，保证了参数的类型正确，自带的交互式在线调试器提供友好的调试界面，强大的自省系统使得它代码即文档，能大大降低前后端的沟通成本，而且单一入口使得后端无需再做繁琐的版本维护，前端想要什么数据完全可按需请求，避免了数据冗余；当然也可能会碰到一些问题如 <code>n+1</code> 问题等，不过官方和社区都有提供可行的解决方案。总之，它是一个能让前端爽的API方案，所以有机会可以试一下。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="git@github.com:lixpng/lixpng.github.io.git/2018/12/20/graphql-intro/" data-id="cjpwnjbqf0009qafy4qvlo465" class="article-share-link">Share</a>
+      
+      
+      
+      <div id="busuanzi_container_page_pv" style="color:#999;position:relative;right:0">
+      本文阅读量:<span id="busuanzi_value_page_pv"></span>
+      </div>
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/22/2018-11-21/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">关于递归和尾调用优化</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="2018/12/20/graphql-intro/" data-title="初探GraphQL" data-url="git@github.com:lixpng/lixpng.github.io.git/2018/12/20/graphql-intro/"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"Leoxueping"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+</div>
+    
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/html/">html</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/html/" style="font-size: 10px;">html</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">十一月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/12/20/graphql-intro/">初探GraphQL</a>
+          </li>
+        
+          <li>
+            <a href="/2018/11/22/2018-11-21/">关于递归和尾调用优化</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/03/css3-2/">CSS3学习笔记(二)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/10/02/css3-1/">CSS3学习笔记(一)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/08/27/2016-8-27/">html5 canvas 实现的小画板</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Lixueping<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <div id="busuanzi_container_site_uv" style="font-size:11px" class="inner">
+	  	本站访客数:<span id="busuanzi_value_site_uv"></span>
+	</div>
+  </div>
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">文章列表</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<div id="totop" style="position:fixed;bottom:50px;right:30px;cursor: pointer;z-index: 2000">
+<a title="返回顶部"><img src="/css/images/scrollup.png"></a>
+</div>
+<script src="/js/totop.js"></script>
+  </div>
+</body>
+</html>
